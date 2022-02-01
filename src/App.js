@@ -16,6 +16,11 @@ function App() {
       <button onClick={() => setId(3)}>3</button>
       <button onClick={() => setId(4)}>4</button>
       <button onClick={() => setId(5)}>5</button>
+      <button onClick={() => setId(6)}>6</button>
+      <button onClick={() => setId(7)}>7</button>
+      <button onClick={() => setId(8)}>8</button>
+      <button onClick={() => setId(9)}>9</button>
+      <button onClick={() => setId(10)}>10</button>
       <div>
         <h1>Posts</h1>
         <Post id={id} />
