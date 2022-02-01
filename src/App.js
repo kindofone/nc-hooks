@@ -1,23 +1,27 @@
-import logo from './logo.svg';
+import { useEffect, useState } from 'react';
 import './App.css';
+import Post from './Post';
+import Todo from './Todo';
+import useTimer from './useTimer';
 
 function App() {
+  const [id, setId] = useState(1);
+  const seconds = useTimer();
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {seconds}
+      <button onClick={() => setId(1)}>1</button>
+      <button onClick={() => setId(2)}>2</button>
+      <button onClick={() => setId(3)}>3</button>
+      <div>
+        <h1>Posts</h1>
+        <Post id={id} />
+      </div>
+      <div>
+        <h1>Todos</h1>
+        <Todo id={id} />
+      </div>
     </div>
   );
 }
