@@ -14,7 +14,7 @@ function App() {
       <button onClick={() => setId(1)}>1</button>
       <button onClick={() => setId(2)}>2</button>
       <button onClick={() => setId(3)}>3</button>
-      <button onClick={() => setId(3)}>4</button>
+      <button onClick={() => setId(4)}>4</button>
       <button onClick={() => setId(5)}>5</button>
       <div>
         <h1>Posts</h1>
