@@ -1,16 +1,34 @@
 import http from 'http';
 import Url from 'url-parse';
+import fetch from 'node-fetch';
 import {POSTS_JSON} from './posts_json.mjs';
 import {TODOS_JSON} from './todos_json.mjs';
 
 const hostname = '127.0.0.1';
 const port = '3001';
 
-function getResourceById(resource, id) {
-  return resource.find(item => item.id === id);
+function respondFromCache(resource, id) {
+  let data = null;
+  switch (resource) {
+    case 'posts':
+      const posts = JSON.parse(POSTS_JSON);
+      data = posts.find(item => item.id === id);
+      break;
+    case 'todos':
+      const todos = JSON.parse(TODOS_JSON);
+      data = todos.find(item => item.id === id);
+      break;
+  }
+
+  return data;
 }
 
-const server = http.createServer((req, res) => {
+async function respondFromJSONPlaceholder(resource, id) {
+  const response = await fetch(`https://jsonplaceholder.typicode.com/${resource}/${id}`);
+  return await response.json();
+}
+
+const server = http.createServer(async (req, res) => {
   res.statusCode = 200;
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET');
@@ -20,23 +38,15 @@ const server = http.createServer((req, res) => {
   const {query} = new Url(req.url, true);
   const resource = query.resource;
   const id = parseInt(query.id);
-
-  let data = null;
-  switch (resource) {
-    case 'posts':
-      data = getResourceById(JSON.parse(POSTS_JSON), id);
-      break;
-    case 'todos':
-      data = getResourceById(JSON.parse(TODOS_JSON), id);
-      break;
-  }
-
-  if (data == null) {
-    res.statusCode = 500;
-    res.end("resource or id undefined");
-    return;
-  }
+  const cache = query.cache === 'true';
   
+  let data = null;
+  if (cache) {
+    data = respondFromCache(res, resource, id);
+  } else {
+    data = await respondFromJSONPlaceholder(res, resource, id);
+  }
+
   res.end(JSON.stringify(data));
 });
 

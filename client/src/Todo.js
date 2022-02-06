@@ -4,7 +4,8 @@ import useServer from './useServer';
 function Todo({id}) {
   const {data} = useServer({
     resource: 'todos', 
-    id
+    id,
+    cache: false,
   });
   
   return data == null ? (
