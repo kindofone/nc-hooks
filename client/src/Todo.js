@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import useJSONPlaceholder from './useJSONPlaceholder';
+import useServer from './useServer';
 
 function Todo({id}) {
-  const {data} = useJSONPlaceholder({
+  const {data} = useServer({
     resource: 'todos', 
     id
   });

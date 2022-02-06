@@ -6,7 +6,8 @@ function useServer({resource, id}) {
   const [data, setData] = useState(null);
   
   useEffect(() => {
-    fetch(`${URL}?${resource}Id=${id}`) // http://localhost:3001?postsId=1
+    // http://localhost:3001?[posts/todos]Id=1
+    fetch(`${URL}?resource=${resource}&id=${id}`)
       .then(response => response.json())
       .then(json => setData(json.body ?? json.title));
   }, [resource, id]);
